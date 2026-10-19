@@ -27,27 +27,20 @@ body.locked{overflow:hidden;height:100vh}
 @keyframes drift{to{transform:translate(4vmax,3vmax) scale(1.12)}}
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
 
-/* ---------- Intro (gift) ---------- */
-#intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;text-align:center;padding:24px;
+[hidden]{display:none!important}
+/* ---------- Game ---------- */
+#game{position:fixed;inset:0;z-index:50;display:grid;place-items:center;text-align:center;padding:24px;overflow:hidden;
   background:linear-gradient(160deg,#ffe3ec,#ead9ff);transition:opacity .9s ease,visibility .9s}
-#intro.gone{opacity:0;visibility:hidden}
-.gift{border:0;background:none;cursor:pointer;font:inherit;color:inherit;display:grid;gap:18px;justify-items:center}
-.envelope{position:relative;width:min(78vw,300px);aspect-ratio:3/2;background:#fff;border-radius:14px;
-  box-shadow:0 24px 50px -18px rgba(232,69,111,.55);animation:bob 3.2s ease-in-out infinite}
-.envelope::before{content:"";position:absolute;inset:0;border-radius:14px;
-  background:linear-gradient(to top right,transparent 49.5%,#ffc2d6 50%) left/50% 100% no-repeat,
-             linear-gradient(to top left,transparent 49.5%,#ffc2d6 50%) right/50% 100% no-repeat}
-.envelope .flap{position:absolute;left:0;right:0;top:0;height:58%;background:linear-gradient(#ff9ebb,#ff86aa);
-  clip-path:polygon(0 0,100% 0,50% 100%);border-radius:14px 14px 0 0;transform-origin:top;transition:transform .7s}
-.envelope .heart{position:absolute;left:50%;top:50%;transform:translate(-50%,-30%);font-size:44px;z-index:2;animation:beat 1.4s infinite}
-.gift:hover .flap{transform:rotateX(180deg)}
-.intro-title{font-family:var(--script);font-size:clamp(2rem,8vw,3rem);color:var(--berry);line-height:1.1}
-.intro-sub{font-size:.95rem;opacity:.8}
-.pill{display:inline-block;padding:12px 28px;border-radius:999px;background:var(--berry);color:#fff;font-weight:500;
-  box-shadow:0 10px 24px -8px rgba(232,69,111,.7);transition:transform .2s}
-.gift:hover .pill{transform:scale(1.06)}
-@keyframes bob{50%{transform:translateY(-10px) rotate(-1deg)}}
-@keyframes beat{50%{transform:translate(-50%,-30%) scale(1.2)}}
+#game.gone{opacity:0;visibility:hidden}
+.q{font-family:var(--script);font-size:clamp(2.4rem,10vw,4rem);color:var(--berry);line-height:1.15;margin:0 0 8px}
+.q-sub{opacity:.75;font-size:.95rem;margin-bottom:32px}
+.choices{display:flex;gap:22px;justify-content:center;align-items:center}
+.choice{font:500 1.15rem var(--body);border:0;border-radius:999px;padding:14px 38px;cursor:pointer;color:#fff;
+  box-shadow:0 10px 24px -8px rgba(232,69,111,.7);touch-action:manipulation}
+#yes{background:var(--plum)}
+#yes.fly{position:fixed;z-index:3;transition:left .35s,top .35s,transform .35s}
+#no{background:var(--berry);position:relative;z-index:2;transform:scale(var(--g,1));transition:transform .4s}
+#no.full{position:fixed;inset:0;width:100%;height:100%;border-radius:0;transform:none;font-size:min(24vw,24vh);z-index:6}
 
 /* ---------- Hero ---------- */
 section{padding:clamp(56px,10vw,110px) 20px;max-width:1100px;margin:0 auto}
@@ -99,6 +92,29 @@ figure.polaroid{position:relative}
 .sign{font-family:var(--script);font-size:1.7rem;text-align:right;margin-top:14px;color:var(--berry)}
 footer{text-align:center;padding:50px 20px 110px;font-size:.9rem;opacity:.7}
 
+/* ---------- Gate ---------- */
+.gate-card{max-width:440px;margin:0 auto;text-align:center;background:rgba(255,255,255,.78);backdrop-filter:blur(8px);
+  border-radius:28px;padding:36px 22px;box-shadow:0 30px 60px -30px rgba(61,33,69,.35)}
+.gate-card h2{font-size:clamp(2rem,8vw,2.8rem)}
+#code{width:min(100%,250px);font:600 2rem var(--body);letter-spacing:.5em;text-align:center;padding:12px 8px 12px calc(8px + .5em);
+  border:2px solid var(--rose);border-radius:16px;background:#fff;color:var(--plum);outline:none;margin-top:14px}
+#code:focus{border-color:var(--berry)}
+#gerr{min-height:1.7em;font-size:.9rem;margin-top:12px}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+/* ---------- Pick ---------- */
+#pick{min-height:100vh;display:flex;flex-direction:column}
+.arena{position:relative;flex:1;min-height:62vh;overflow:hidden}
+.chip{position:absolute;left:50%;top:50%;translate:-50% -50%;transform:scale(0);opacity:0;border:0;cursor:pointer;
+  font:500 1.05rem var(--body);padding:11px 20px;border-radius:999px;background:#fff;color:var(--plum);white-space:nowrap;
+  box-shadow:0 10px 22px -10px rgba(61,33,69,.5);
+  transition:left .9s cubic-bezier(.2,1.2,.4,1),top .9s cubic-bezier(.2,1.2,.4,1),transform .5s,opacity .4s}
+.chip.good{background:var(--berry);color:#fff;font-weight:500}
+.chip.on{transform:scale(1);opacity:1;animation:flo 2.6s ease-in-out infinite alternate}
+@keyframes flo{to{transform:translateY(-8px) rotate(2deg)}}
+.chip.pop{animation:none;transform:scale(0) rotate(40deg);opacity:0;pointer-events:none}
+.chip.win{animation:none;transform:scale(1.35);opacity:1;z-index:3;pointer-events:none}
+
 /* ---------- Player ---------- */
 .player{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:30;display:none;align-items:center;gap:10px;
   padding:8px 18px 8px 8px;border-radius:999px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);
@@ -125,7 +141,7 @@ footer{text-align:center;padding:50px 20px 110px;font-size:.9rem;opacity:.7}
 @media(prefers-color-scheme:dark){:root{--mist:#2a1830;--plum:#ffeaf2}
   .bg{background:linear-gradient(160deg,#3a1d3f,#251a45 55%,#33261f)}
   figure.polaroid,.letter,.player{background:rgba(58,32,66,.9)}figure.polaroid figcaption{color:#ffeaf2}
-  #intro{background:linear-gradient(160deg,#3a1d3f,#2a1b4a)}.envelope{background:#4a2b55}}
+  #game{background:linear-gradient(160deg,#3a1d3f,#2a1b4a)}.gate-card{background:rgba(58,32,66,.9)}#code{background:#3a2042;border-color:#6a3a78}.chip{background:#4a2b55}.chip.good{background:var(--berry)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
   figure.polaroid{opacity:1;translate:0 0}}
 </style>
@@ -135,14 +151,16 @@ footer{text-align:center;padding:50px 20px 110px;font-size:.9rem;opacity:.7}
 <canvas id="fx"></canvas>
 <div id="toast" role="status"></div>
 
-<!-- Intro -->
-<div id="intro">
-  <button class="gift" id="open" aria-label="Mở quà">
-    <div class="envelope"><div class="flap"></div><div class="heart">💌</div></div>
-    <div class="intro-title">Có một món quà nhỏ<br>dành cho Trang</div>
-    <div class="intro-sub">Bật loa lên nhé, rồi chạm để mở quà</div>
-    <span class="pill">Mở quà 🎀</span>
-  </button>
+<!-- Game -->
+<div id="game">
+  <div>
+    <h1 class="q">Trang có giận Vũ không? 🥺</h1>
+    <p class="q-sub">Chọn thật lòng nha</p>
+    <div class="choices">
+      <button class="choice" id="yes">Có</button>
+      <button class="choice" id="no">Không</button>
+    </div>
+  </div>
 </div>
 
 <main>
@@ -178,7 +196,16 @@ footer{text-align:center;padding:50px 20px 110px;font-size:.9rem;opacity:.7}
     </div>
   </section>
 
-  <section id="us">
+  <section id="gate-sec">
+    <div class="gate-card" id="gate-card">
+      <h2>Mật mã tình yêu 🔐</h2>
+      <p class="lead" style="margin-bottom:6px">Ngày mình yêu nhau là ngày nào?<br><small>(nhập 4 số: ngày + tháng)</small></p>
+      <input id="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••" aria-label="Mật mã 4 số">
+      <div id="gerr" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="us" hidden>
     <h2>Hai đứa mình</h2>
     <p class="lead">Những chuyến đi nhỏ, nhưng anh nhớ từng chuyến.</p>
     <div class="wall">
@@ -190,7 +217,13 @@ footer{text-align:center;padding:50px 20px 110px;font-size:.9rem;opacity:.7}
     </div>
   </section>
 
-  <section id="letter-sec">
+  <section id="pick" hidden>
+    <h2>Hôm nay ai xinh nhất? 👑</h2>
+    <p class="lead">Chọn một người đi nào</p>
+    <div class="arena" id="arena"></div>
+  </section>
+
+  <section id="letter-sec" hidden>
     <div class="letter">
       <h3>Gửi em,</h3>
       <div id="typed" aria-live="polite"></div><span class="caret"></span>
@@ -198,7 +231,7 @@ footer{text-align:center;padding:50px 20px 110px;font-size:.9rem;opacity:.7}
     </div>
   </section>
 </main>
-<footer>Anh làm tặng em bằng cả tấm lòng · 20/10/2026</footer>
+<footer id="foot" hidden>Anh làm tặng em bằng cả tấm lòng · 20/10/2026</footer>
 
 <button class="player" id="player" aria-label="Bật/tắt nhạc">
   <span class="disc">♪</span>
@@ -220,12 +253,86 @@ function play(){bgm.play().then(sync).catch(()=>say('Chưa tìm thấy file nh�
 bgm.addEventListener('error',()=>say('Chưa tìm thấy file nhạc: hãy đặt song.mp3 vào thư mục music/'));
 player.onclick=()=>{bgm.paused?play():(bgm.pause(),sync())};
 
-/* ---- Open gift ---- */
-$('#open').onclick=()=>{
-  play(); $('#intro').classList.add('gone'); document.body.classList.remove('locked');
-  $('#hero').classList.add('play'); player.classList.add('show'); burst(innerWidth/2,innerHeight/2,16);
-  setTimeout(()=>$('#intro').remove(),1000);
+/* ---- Game: Trang có giận Vũ không? ---- */
+const yes=$('#yes'),no=$('#no'),game=$('#game');
+let dodges=0,lastDodge=0;
+const taunts=['Trượt rồi nè 😝','Hông bấm được đâu 🙈','Thử lại coi 😜','Bấm "Không" cho lẹ đi 🥺','Nút này ngại em lắm 😳','Anh xin lỗi mà 🥹'];
+function dodge(e){
+  if(e&&e.cancelable)e.preventDefault();
+  const now=Date.now();if(now-lastDodge<300)return;lastDodge=now;
+  dodges++;
+  const w=yes.offsetWidth||80,h=yes.offsetHeight||48;
+  yes.classList.add('fly');
+  yes.style.transform=`scale(${Math.max(.3,Math.pow(.82,dodges))})`;
+  yes.style.left=(10+Math.random()*Math.max(10,innerWidth-w-20))+'px';
+  yes.style.top=(10+Math.random()*Math.max(10,innerHeight-h-20))+'px';
+  no.style.setProperty('--g',Math.pow(1.3,dodges));
+  if(dodges>=9)no.classList.add('full');
+  say(taunts[dodges%taunts.length]);
+}
+yes.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')dodge(e)});
+yes.addEventListener('pointerdown',dodge);
+yes.addEventListener('click',dodge);
+no.onclick=()=>{
+  play();game.classList.add('gone');document.body.classList.remove('locked');scrollTo(0,0);
+  $('#hero').classList.add('play');player.classList.add('show');burst(innerWidth/2,innerHeight/2,18);
+  say('Biết ngay là em hết giận rồi mà 🥹💗');setTimeout(()=>game.remove(),1000);
 };
+
+/* ---- Gate: mật mã tình yêu (0608) ---- */
+const code=$('#code'),gerr=$('#gerr');
+code.addEventListener('input',()=>{
+  code.value=code.value.replace(/\D/g,'').slice(0,4);
+  if(code.value.length<4)return;
+  if(code.value==='0608'){
+    code.disabled=true;gerr.textContent='Đúng rồi, em nhớ giỏi quá 🥰';
+    const r=code.getBoundingClientRect();burst(r.left+r.width/2,r.top,16);
+    $('#us').hidden=false;$('#pick').hidden=false;
+    setTimeout(()=>$('#us').scrollIntoView({behavior:'smooth'}),900);
+  }else{
+    gerr.textContent='Sai rồi nè, nghĩ lại xem 🥺';
+    code.classList.remove('shake');void code.offsetWidth;code.classList.add('shake');
+    setTimeout(()=>{code.value=''},450);
+  }
+});
+
+/* ---- Pick: Hôm nay ai xinh nhất? ---- */
+const arena=$('#arena'),GOOD='Trang xinh của Vũ';
+const others=['Hương','Lan','Mai','Linh','Thảo','Ngọc','Chi','Hà','Nga','My','Vy','Chị Hằng','Cô Tấm','Bé mèo','Hoa','Thu'];
+let won=false;
+function chip(text,good){
+  const c=document.createElement('button');c.className='chip'+(good?' good':'');c.textContent=text;
+  c.style.left=arena.clientWidth/2+'px';c.style.top=arena.clientHeight/2+'px';
+  c.style.transitionDelay=Math.random()*.25+'s';c.style.animationDelay=-Math.random()*2+'s';
+  arena.appendChild(c);
+  const W=arena.clientWidth,H=arena.clientHeight,w=c.offsetWidth/2,h=c.offsetHeight/2;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    c.style.left=(w+8+Math.random()*Math.max(0,W-2*w-16))+'px';
+    c.style.top=(h+8+Math.random()*Math.max(0,H-2*h-16))+'px';
+    c.classList.add('on');
+  }));
+  c.onclick=()=>choose(c,good);
+}
+function choose(c,good){
+  if(won)return;
+  const r=c.getBoundingClientRect();
+  if(good){
+    won=true;
+    $$('.chip').forEach(x=>{if(x!==c){x.classList.remove('on');x.classList.add('pop')}});
+    c.classList.remove('on');c.classList.add('win');
+    burst(r.left+r.width/2,r.top,26);say('Đúng rồi, xinh nhất là Trang của Vũ 👑');
+    setTimeout(()=>{$('#letter-sec').hidden=false;$('#foot').hidden=false;
+      $('#letter-sec').scrollIntoView({behavior:'smooth'})},1500);
+  }else{
+    c.classList.remove('on');c.classList.add('pop');setTimeout(()=>c.remove(),500);
+    const have=arena.querySelectorAll('.chip.good:not(.pop)').length;
+    for(let i=0;i<2&&have+i<14;i++)chip(GOOD,true);
+    say('Sai rồi nha 😤 chọn lại đi');
+  }
+}
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();
+  const r=arena.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,20);
+  chip(GOOD,true);others.forEach(n=>chip(n,false));}},{threshold:.35}).observe($('#pick'));
 
 /* ---- Petals + hearts canvas ---- */
 const cv=$('#fx'),cx=cv.getContext('2d');let W,H,parts=[];
@@ -252,7 +359,7 @@ function burst(x,y,n=5){if(reduce)return;const e=['💗','🌸','✨','💖','�
   for(let i=0;i<n;i++){const s=document.createElement('span');s.className='burst';s.textContent=e[Math.random()*e.length|0];
     s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--dx',(Math.random()*160-80)+'px');
     document.body.appendChild(s);setTimeout(()=>s.remove(),1400)}}
-addEventListener('pointerdown',e=>{if(!e.target.closest('#lb,.player,#intro'))burst(e.clientX,e.clientY)});
+addEventListener('pointerdown',e=>{if(!e.target.closest('#lb,.player,#game,.chip,.gate-card'))burst(e.clientX,e.clientY)});
 
 /* ---- Gallery reveal + lightbox ---- */
 const figs=$$('.polaroid');
